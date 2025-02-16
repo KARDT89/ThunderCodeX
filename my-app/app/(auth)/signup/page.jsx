@@ -7,6 +7,7 @@ import {useState} from "react";
 import {auth} from "@/app/firebase/firebase";
 import {useCreateUserWithEmailAndPassword} from "react-firebase-hooks/auth";
 import {useRouter} from "next/navigation";
+import {Loader2} from 'lucide-react'
 
 const Signup = () => {
     const [inputs, setInputs] = useState({displayName:"", email: "", password: ""});
@@ -24,7 +25,11 @@ const Signup = () => {
     ] = useCreateUserWithEmailAndPassword(auth);
 
     const handleRegister = async (e) => {
+
         e.preventDefault();
+        if(!inputs.displayName || !inputs.email || !inputs.password) {
+            return alert("Please fill all fields");
+        }
         try{
             const newUser = await createUserWithEmailAndPassword(inputs.email, inputs.password);
             if(!newUser) return
@@ -102,7 +107,10 @@ const Signup = () => {
                     type="submit"
                     className="w-full py-6 text-base font-semibold bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white transition-all hover:scale-[1.02] shadow-lg hover:shadow-blue-500/20"
                 >
-                    Create Account
+                    {loading ? <>
+                        Creating Account
+                        <Loader2 className="animate-spin h-5 w-5" />
+                    </>  : "Create Account"}
                 </Button>
 
                 <div className="text-sm text-center text-gray-400">
