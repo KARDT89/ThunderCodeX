@@ -1,8 +1,12 @@
+import Navbar from "./components/Navbar/Navbar";
 
 export default function Home() {
   return (
     <>
-      <h1>Hello world</h1>
+      <main className="!bg-zinc-900 min-h-screen">
+        <Navbar />
+      </main>
+      
     </>
   );
 }
