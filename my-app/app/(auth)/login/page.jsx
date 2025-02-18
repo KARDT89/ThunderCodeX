@@ -7,6 +7,7 @@ import {auth} from "@/app/firebase/firebase";
 import {useSignInWithEmailAndPassword} from "react-firebase-hooks/auth";
 import {useRouter} from "next/navigation";
 import {Loader2} from "lucide-react";
+import { toast } from "react-toastify";
 
 
 const Login = () => {
@@ -28,7 +29,7 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        if(!inputs.email || !inputs.password) return alert("Please enter all fields");
+        if(!inputs.email || !inputs.password) return toast.warning("Please fill all input fields", {position: "top-center", autoClose: 3000, theme: "dark"})
 
         try{
             const newUser = await signInWithEmailAndPassword(inputs.email, inputs.password);
@@ -36,12 +37,12 @@ const Login = () => {
             await router.push("/");
 
         }catch(error){
-            alert(error.message)
+            toast.error(error.message, {position: "top-center", autoClose: 3000, theme: "dark"})
         }
 
     }
     useEffect(() => {
-        if(error) alert(error.message)
+        if(error) toast.error(error.message, {position: "top-center", autoClose: 3000, theme: "dark"})
     },[error])
     return (
 
