@@ -3,8 +3,8 @@ import { FiRefreshCcw } from "react-icons/fi";
 
 function Timer() {
   const [time, setTime] = useState(0);
-  const [isRunning, setIsRunning] = useState(true);
-  const [reset, setReset] = useState(false);
+  const [isRunning, setIsRunning] = useState(false);
+  const [showClock, setShowClock] = useState(true);
 
   useEffect(() => {
     let timer;
@@ -23,9 +23,20 @@ function Timer() {
     return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
   };
 
+  const handleStart = () => {
+    setShowClock(false);
+    setIsRunning(true);
+  };
+
+  const handleReset = () => {
+    setTime(0);
+    setIsRunning(false);
+    setShowClock(true);
+  };
+
   return (
     <div className="flex items-center space-x-3 bg-zinc-800 text-white px-4 py-2 rounded-lg shadow-md hover:bg-zinc-700 transition duration-300">
-      {reset ? (
+      {showClock ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -33,11 +44,7 @@ function Timer() {
           height="1.5em"
           fill="currentColor"
           className="cursor-pointer"
-          onClick={() => {
-            setReset(false);
-            setTime(0);
-            setIsRunning(true);
-          }}
+          onClick={handleStart}
         >
           <path
             fillRule="evenodd"
@@ -50,10 +57,7 @@ function Timer() {
           <div className="text-lg font-mono">{formatTime(time)}</div>
           <FiRefreshCcw
             className="cursor-pointer text-xl hover:text-gray-400"
-            onClick={() => {
-              setReset(true);
-              setIsRunning(false);
-            }}
+            onClick={handleReset}
           />
         </>
       )}
