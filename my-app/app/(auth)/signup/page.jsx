@@ -47,7 +47,7 @@ const Signup = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-700 via-black to-gray-900 flex items-center justify-center p-4">
             <form className="space-y-8 p-12 rounded-2xl bg-gray-800/50 backdrop-blur-sm border border-gray-700 shadow-2xl w-full max-w-md" onSubmit={handleRegister}>
-                <h3 className="text-3xl text-center font-extrabold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
+                <h3 className="text-3xl text-center font-extrabold bg-gradient-to-r from-yellow-300 to-yellow-600 bg-clip-text text-transparent">
                     Join ThunderCodeX
                 </h3>
 
@@ -105,7 +105,7 @@ const Signup = () => {
                 </div>
                 <Button
                     type="submit"
-                    className="w-full py-6 text-base font-semibold bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white transition-all hover:scale-[1.02] shadow-lg hover:shadow-blue-500/20"
+                    className="w-full py-6 text-base font-semibold bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-700 text-black transition-all hover:scale-[1.02] shadow-lg hover:shadow-yellow-500/20"
                 >
                     {loading ? <>
                         Creating Account
@@ -118,7 +118,7 @@ const Signup = () => {
                     <Link href="/login">
                         <Button
                             variant="link"
-                            className="p-0 text-blue-400 hover:text-blue-300 font-semibold ml-1.5 h-auto"
+                            className="p-0 text-yellow-400 hover:text-yellow-300 font-semibold ml-1.5 h-auto"
                         >
                             Sign In
                         </Button>
