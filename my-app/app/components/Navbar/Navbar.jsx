@@ -11,18 +11,47 @@ import { Github, LogIn } from "lucide-react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/firebase";
 import Logout from "../Buttons/Logout";
+import {FaChevronLeft, FaChevronRight} from 'react-icons/fa'
+import { BsList } from "react-icons/bs";
+import Timer from "../Timer/timer";
+import ProblemsPage from "@/app/problems/[id]/page";
 
-const Navbar = () => {
+const Navbar = ({problemPage}) => {
   const [user] = useAuthState(auth);
 
   return (
     <nav className="relative flex h-[50px] w-full shrink-0 items-center px-5 bg-zinc-800 text-dark-gray-7">
-      <div className="flex w-full items-center justify-between max-w-[1200px] mx-auto">
+      <div className={` flex w-full items-center justify-between ${!problemPage ? 'max-w-[1200px] mx-auto' : ''}`}>
         <Link href={"/"} className="h-[22px] flex-1 text-white">
-          logo
+          <Image
+            src={'/images/logo-full.png'}
+            width={100}
+            height={100}
+          
+          />
         </Link>
+        {problemPage && (
+          <div className="flex items-center gap-4 flex-1 justify-center">
+            <button className="flex items-center justify-center rounded-lg bg-gray-700 hover:bg-gray-600 h-9 w-9 transition duration-200">
+              <FaChevronLeft className="text-white" />
+            </button>
+            <Link href="/" className="flex items-center gap-2 font-medium text-gray-300 hover:text-white transition">
+              <BsList className="text-lg" />
+              <p>Problem List</p>
+            </Link>
+            <button className="flex items-center justify-center rounded-lg bg-gray-700 hover:bg-gray-600 h-9 w-9 transition duration-200">
+              <FaChevronRight className="text-white" />
+            </button>
+          </div>
+        )}
         <div className="flex items-center space-x-4 flex-1 justify-end">
           <div>
+          {problemPage && (
+              <Timer/>
+            )}
+          </div>
+          {!problemPage && (
+            <div>
             <Button
               asChild
               variant="outline"
@@ -38,6 +67,8 @@ const Navbar = () => {
               </a>
             </Button>
           </div>
+          )}
+          
           <div>
             {!user && (
               <Button

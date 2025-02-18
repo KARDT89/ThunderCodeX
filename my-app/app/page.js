@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <>
       <main className="bg-zinc-900 min-h-screen text-white">
-        <Navbar />
+        <Navbar/>
         <div className="relative overflow-x-auto mx-auto max-w-6xl px-6 pb-12 pt-20">
           <Table className="min-w-full bg-zinc-800 rounded-lg shadow-md">
             <TableHeader className="text-xs text-gray-300 uppercase">

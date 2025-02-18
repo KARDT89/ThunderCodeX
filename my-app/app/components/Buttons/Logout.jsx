@@ -5,20 +5,19 @@ import { useSignOut } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/firebase";
 
 const Logout = () => {
-    const [signOut, loading, error] = useSignOut(auth)
+  const [signOut] = useSignOut(auth);
 
-    const handleLogout = () => {
-        signOut()
-    }
-
-
+  const handleLogout = () => {
+    signOut();
+  };
 
   return (
-    <>
-      <Button className="bg-gradient-to-r from-yellow-300 to-yellow-600 text-black" onClick={handleLogout}>
-          <LogOut/>
-      </Button>
-    </>
+    <Button
+      className="bg-gradient-to-r from-yellow-300 to-yellow-600 text-black hover:from-yellow-400 hover:to-yellow-700 transition-all"
+      onClick={handleLogout}
+    >
+      <LogOut />
+    </Button>
   );
 };
 
