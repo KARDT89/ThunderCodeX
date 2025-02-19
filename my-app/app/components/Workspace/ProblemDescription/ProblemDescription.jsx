@@ -6,8 +6,8 @@ import { TiStarOutline } from "react-icons/ti";
 const ProblemDescription = () => {
   return (
     <div className="bg-zinc-800 min-h-screen text-gray-200">
-      <div className="flex h-11 w-full items-center pt-4 bg-zinc-900 text-gray-300 overflow-x-hidden">
-        <div className="bg-zinc-800 rounded-t-[4px] px-5 py-[6px] text-sm cursor-pointer font-medium">
+      <div className="flex h-11 w-full items-center pt-2 bg-zinc-900 text-gray-300 overflow-x-hidden">
+        <div className="bg-zinc-800 rounded-t-[4px] px-5 py-[8px] text-sm cursor-pointer font-semibold">
           Description
         </div>
       </div>
