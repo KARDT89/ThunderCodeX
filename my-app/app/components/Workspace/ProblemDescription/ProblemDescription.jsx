@@ -98,25 +98,19 @@ const ProblemDescription = () => {
               </div>
             </div>
 
-            <div className="mt-6">
+            <div className="my-5">
               <p className="font-medium text-white">Constraints:</p>
-              <div className="bg-zinc-700 p-4 mt-2 rounded-lg">
-                <div className="font-mono text-sm">
-                  <p>
-                    2 &lt;= nums.length &lt;= 10
-                    <sup className="text-[0.7em]">4</sup>
-                  </p>
-                  <p>
-                    -10<sup className="text-[0.7em]">9</sup> &lt;= nums[i] &lt;=
-                    10<sup className="text-[0.7em]">9</sup>
-                  </p>
-                  <p>
-                    -10<sup className="text-[0.7em]">9</sup> &lt;= target &lt;=
-                    10<sup className="text-[0.7em]">9</sup>
-                  </p>
-                  <p>Only one valid answer exists.</p>
-                </div>
-              </div>
+              <ul className="text-white ml-5 list-disc">
+                <li className="mt-2">
+                    <code>2 nums.length 10 </code>
+                </li>
+                <li className="mt-2">
+                  <code>-10 nums[i] 10</code>
+                </li>
+                <li className="mt-2">
+                  <strong>Only one valid answer exists</strong>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
