@@ -3,7 +3,7 @@ import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import { BsCheck2Circle } from "react-icons/bs";
 import { TiStarOutline } from "react-icons/ti";
 
-const ProblemDescription = () => {
+const ProblemDescription = ({problem}) => {
   return (
     <div className="bg-zinc-800 min-h-screen text-gray-200">
       <div className="flex h-11 w-full items-center pt-2 bg-zinc-900 text-gray-300 overflow-x-hidden">
@@ -16,7 +16,7 @@ const ProblemDescription = () => {
         <div className="px-5 w-full">
           <div className="flex space-x-4">
             <div className="flex-1 mr-2 text-2xl text-gray-100 font-bold">
-              1. Two Sum
+              {problem.title}
             </div>
           </div>
           <div className="flex items-center mt-4">
@@ -40,16 +40,7 @@ const ProblemDescription = () => {
           </div>
 
           <div className="text-white text-sm">
-            <p className="mt-3">
-              Given an array of integers <code>nums</code> and an integer{" "}
-              <code>target</code>, return indices of the two numbers such that
-              they add up to <code>target</code>.
-            </p>
-            <p className="mt-3">
-              You may assume that each input would have exactly one solution,
-              and you may not use the same element twice.
-            </p>
-            <p className="mt-3">You can return the answer in any order.</p>
+          <div dangerouslySetInnerHTML={{ __html: problem.problemStatement }} />
 
             {/* Examples */}
             <div className="mt-6">

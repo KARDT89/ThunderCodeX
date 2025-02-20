@@ -5,10 +5,10 @@ import Split from 'react-split'
 import ProblemDescription from './ProblemDescription/ProblemDescription'
 import Playground from './Playground/Playground';
 
-const Workspace = () => {
+const Workspace = ({problem}) => {
   return (
     <Split className='split' minSize={0}>
-        <ProblemDescription/>
+        <ProblemDescription problem={problem}/>
         <Playground/>
     </Split>
   )
