@@ -5,6 +5,7 @@ import CodeMirror from '@uiw/react-codemirror'
 import { vscodeDark } from '@uiw/codemirror-theme-vscode'
 import { javascript } from '@codemirror/lang-javascript'
 import { useState } from 'react'
+import EditorFooter from './EditorFooter'
 
 function Playground({problem}) {
 
@@ -52,7 +53,9 @@ function Playground({problem}) {
                     </div>
                 </div>
             </div>
+            
         </Split>
+        <EditorFooter/>
     </div>
   )
 }

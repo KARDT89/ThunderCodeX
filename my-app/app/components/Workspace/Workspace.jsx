@@ -9,7 +9,10 @@ const Workspace = ({problem}) => {
   return (
     <Split className='split' minSize={0}>
         <ProblemDescription problem={problem}/>
+        <div>
         <Playground problem={problem}/>
+        </div>
+       
     </Split>
   )
 }
