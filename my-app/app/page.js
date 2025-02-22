@@ -59,7 +59,7 @@ export default function Home() {
             colorStops={
               resolvedTheme === "dark"
                 ? ["#3A29FF", "#FF94B4", "#FF3232"] // Dark theme colors
-                : ["#FFD700", "#FFB347", "#FF7F50"] // Light theme colors
+                : ["#ffffff", "#ffffff", "#ffffff"] // Light theme colors
             }
             speed={0.5}
           />
