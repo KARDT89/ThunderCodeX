@@ -36,7 +36,7 @@ export const twoSum = {
   id: "two-sum",
   title: "1. Two Sum",
   problemStatement: `<p className="mt-3">
-              Given an array of integers <code>nums</code> and an integer{" "}
+              Given an array of integers <code>nums</code> and an integer 
               <code>target</code>, return indices of the two numbers such that
               they add up to <code>target</code>.
             </p>

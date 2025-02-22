@@ -35,8 +35,8 @@ function Playground({problem}) {
                     {problem.examples.map((example, index) => (
                         <div className="mr-2 items-start mt-2" key={example.id} onClick={() => setActiveTestCaseId(index)}>
                             <div className='flex flex-wrap items-center gap-y-4'>
-                                <div className={`font-bold items-center transition-all focus:outline-none inline-flex bg-zinc-600
-                                 hover:bg-zinc-500 hover:text-white relative rounded-lg px-4 py-1 cursor-pointer whitespace-nowrap
+                                <div className={`font-bold items-center transition-all focus:outline-none inline-flex bg-zinc-700
+                                 hover:bg-zinc-600 hover:text-white relative rounded-lg px-4 py-1 cursor-pointer whitespace-nowrap
                                     ${activeTestCaseId === index ? "text-white" : "text-gray-500"}
                                  `}>
                                     Case {index + 1}
@@ -47,11 +47,11 @@ function Playground({problem}) {
                 </div>
                 <div className='font-semibold my-4'>
                     <p className='text-sm font-medium mt-4 text-white'>Input: </p>
-                    <div className='w-full cursor-text rounded-lg border px-3 py-[10px] bg-zinc-600 border-transparent text-white mt-2 font-normal'>
+                    <div className='w-full cursor-text rounded-lg border px-3 py-[10px] bg-zinc-700 border-transparent text-white mt-2 font-normal'>
                         {problem.examples[activeTestCaseId].inputText}
                     </div>
                     <p className='text-sm font-medium mt-4 text-white'>Output: </p>
-                    <div className='w-full cursor-text rounded-lg border px-3 py-[10px] bg-zinc-600 border-transparent text-white mt-2 font-normal'>
+                    <div className='w-full cursor-text rounded-lg border px-3 py-[10px] bg-zinc-700 border-transparent text-white mt-2 font-normal'>
                         {problem.examples[activeTestCaseId].outputText}
                     </div>
                 </div>
