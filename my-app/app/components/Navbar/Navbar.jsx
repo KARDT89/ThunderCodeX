@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, X } from "lucide-react";
@@ -9,7 +9,7 @@ import Image from "next/image";
 import { MorphingText } from "@/components/magicui/morphing-text";
 import { Github, LogIn } from "lucide-react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "@/app/firebase/firebase";
+import { auth, firestore } from "@/app/firebase/firebase";
 import Logout from "../Buttons/Logout";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { BsList } from "react-icons/bs";
@@ -24,9 +24,42 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { LogOut } from "lucide-react";
+import { useSignOut } from "react-firebase-hooks/auth";
+import { getDoc, doc } from "firebase/firestore";
+import { AuroraText } from "@/components/magicui/aurora-text";
 
 const Navbar = ({ problemPage }) => {
   const [user] = useAuthState(auth);
+
+  const [signOut] = useSignOut(auth);
+
+  const [showDisplayName, setShowDisplayName] = useState("");
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (user) {
+        try {
+          console.log("Fetching user data for UID:", user.uid);
+          const userDoc = await getDoc(doc(firestore, "users", user.uid));
+          if (userDoc.exists()) {
+            //console.log("User document data:", userDoc.data());
+            setShowDisplayName(userDoc.data().displayName);
+            //console.log(showDisplayName);
+          } else {
+            console.log("No such user document!");
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+    };
+    fetchUserData();
+  }, [user]);
+
+  const handleLogout = () => {
+    signOut();
+  };
 
   return (
     <nav className="relative flex h-[50px] w-full shrink-0 items-center px-5 bg-zinc-800 text-dark-gray-7 ">
@@ -88,32 +121,41 @@ const Navbar = ({ problemPage }) => {
                 </Link>
               </Button>
             )}
+
             {user && (
               <div className="cursor-pointer group relative">
                 <DropdownMenu>
-                  <DropdownMenuTrigger asChild >
-                  <Avatar className="h-[40px] w-[40px]">
-                      <AvatarImage src="https://github.com/shadcn.png" />
-                      <AvatarFallback>welcome</AvatarFallback>
-                    </Avatar>
+                  <DropdownMenuTrigger asChild>
+                    <div className="flex items-center gap-5">
+                      <h1 className="font-bold tracking-tighter md:text-5xl lg:text-2xl">
+                        <AuroraText>Welcome, {showDisplayName}</AuroraText>
+                      </h1>
+
+                      <Avatar className="h-[40px] w-[40px]">
+                        <AvatarImage src="https://github.com/shadcn.png" />
+                        <AvatarFallback>welcome</AvatarFallback>
+                      </Avatar>
+                    </div>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="bg-primary text-yellow-500">
-                    <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
+                  <DropdownMenuContent className="bg-zinc-900 text-yellow-500">
+                    <DropdownMenuLabel></DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem className="w-full">
-                      <Link
-                        href="https://github.com/KARDT89"
-                        target="_blank"
-                        className="w-full"
-                      >
-                        <Button className="w-full">
-                          <Github className="mr-2 h-4 w-4" />
-                          Visit GitHub
-                        </Button>
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Logout />
+                    <Link
+                      href="https://github.com/KARDT89"
+                      target="_blank"
+                      className="w-full cursor-pointer"
+                    >
+                      <DropdownMenuItem className="w-full flex items-center justify-between text-white focus:bg-zinc-700 focus:text-white">
+                        Visit GitHub
+                        <Github className="mr-2 h-4 w-4" />
+                      </DropdownMenuItem>
+                    </Link>
+                    <DropdownMenuItem
+                      className="w-full flex items-center justify-between text-white focus:bg-zinc-700 focus:text-white"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                      <LogOut />
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
