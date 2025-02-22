@@ -45,7 +45,7 @@ function Playground({problem}) {
                         </div>
                     ))}
                 </div>
-                <div className='font-semibold my-4'>
+                <div className='font-semibold my-4 pb-10'>
                     <p className='text-sm font-medium mt-4 text-white'>Input: </p>
                     <div className='w-full cursor-text rounded-lg border px-3 py-[10px] bg-zinc-700 border-transparent text-white mt-2 font-normal'>
                         {problem.examples[activeTestCaseId].inputText}
