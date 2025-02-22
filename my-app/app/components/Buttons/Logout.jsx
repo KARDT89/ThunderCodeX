@@ -13,10 +13,10 @@ const Logout = () => {
 
   return (
     <Button
-      className="bg-gradient-to-r from-yellow-300 to-yellow-600 text-black hover:from-yellow-400 hover:to-yellow-700 transition-all"
       onClick={handleLogout}
+      className='w-full'
     >
-      <LogOut />
+      Logout<LogOut /> 
     </Button>
   );
 };

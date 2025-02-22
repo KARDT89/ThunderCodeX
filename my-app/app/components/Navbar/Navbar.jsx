@@ -16,13 +16,20 @@ import { BsList } from "react-icons/bs";
 import Timer from "../Timer/timer";
 import ProblemsPage from "@/app/problems/[id]/page";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = ({ problemPage }) => {
   const [user] = useAuthState(auth);
 
   return (
-    <nav className="relative flex h-[50px] w-full shrink-0 items-center px-5 bg-zinc-800 text-dark-gray-7">
+    <nav className="relative flex h-[50px] w-full shrink-0 items-center px-5 bg-zinc-800 text-dark-gray-7 ">
       <div
         className={` flex w-full items-center justify-between ${
           !problemPage ? "max-w-[1200px] mx-auto" : ""
@@ -50,7 +57,7 @@ const Navbar = ({ problemPage }) => {
         )}
         <div className="flex items-center space-x-4 flex-1 justify-end">
           <div>{user && problemPage && <Timer />}</div>
-          {!problemPage && (
+          {!problemPage && !user && (
             <div>
               <Button
                 asChild
@@ -83,22 +90,36 @@ const Navbar = ({ problemPage }) => {
             )}
             {user && (
               <div className="cursor-pointer group relative">
-                <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>{user.email}</AvatarFallback>
-                </Avatar>
-
-                <div
-                  className="absolute top-10 left-2/4 -translate-x-2/4  mx-auto bg-dark-layer-1 text-yellow-300 p-2 rounded shadow-lg 
-								z-40 group-hover:scale-100 scale-0 
-								transition-all duration-300 ease-in-out"
-                >
-                  <p className="text-sm">{user.email}</p>
-                </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild >
+                  <Avatar className="h-[40px] w-[40px]">
+                      <AvatarImage src="https://github.com/shadcn.png" />
+                      <AvatarFallback>welcome</AvatarFallback>
+                    </Avatar>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="bg-primary text-yellow-500">
+                    <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem className="w-full">
+                      <Link
+                        href="https://github.com/KARDT89"
+                        target="_blank"
+                        className="w-full"
+                      >
+                        <Button className="w-full">
+                          <Github className="mr-2 h-4 w-4" />
+                          Visit GitHub
+                        </Button>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Logout />
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             )}
           </div>
-          {user && <Logout />}
         </div>
       </div>
     </nav>
