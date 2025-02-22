@@ -77,7 +77,7 @@ const Navbar = ({ problemPage }) => {
           <Image src={"/images/logo-full.png"} width={100} height={100} />
         </Link> */}
         <div className="text-2xl font-bold tracking-tighter md:text-2xl lg:text-2xl flex-1">
-        <SpinningText>learn more • earn more • grow more •</SpinningText><AuroraText>ThunderCodeX</AuroraText>
+        <AuroraText>ThunderCodeX</AuroraText>
         </div>
         {problemPage && (
           <div className="flex items-center gap-4 flex-1 justify-center">
