@@ -31,6 +31,8 @@ import { AuroraText } from "@/components/magicui/aurora-text";
 import { RainbowButton } from "@/components/magicui/rainbow-button";
 import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
 import { ModeToggle } from "@/components/ModeToggle";
+import { TypingAnimation } from "@/components/magicui/typing-animation";
+import { SpinningText } from "@/components/magicui/spinning-text";
 
 const Navbar = ({ problemPage }) => {
   const [user] = useAuthState(auth);
@@ -71,9 +73,12 @@ const Navbar = ({ problemPage }) => {
           !problemPage ? "max-w-[1200px] mx-auto" : ""
         }`}
       >
-        <Link href={"/"} className="h-[22px] flex-1 text-white">
+        {/* <Link href={"/"} className="h-[22px] flex-1 text-white">
           <Image src={"/images/logo-full.png"} width={100} height={100} />
-        </Link>
+        </Link> */}
+        <div className="text-2xl font-bold tracking-tighter md:text-2xl lg:text-2xl flex-1">
+        <SpinningText>learn more • earn more • grow more •</SpinningText><AuroraText>ThunderCodeX</AuroraText>
+        </div>
         {problemPage && (
           <div className="flex items-center gap-4 flex-1 justify-center">
             <button className="flex items-center justify-center rounded-lg bg-gray-700 hover:bg-gray-600 h-9 w-9 transition duration-200">
@@ -109,8 +114,6 @@ const Navbar = ({ problemPage }) => {
             </div>
           )}
 
-          
-
           <div>
             {!user && (
               <InteractiveHoverButton className="w-full bg-gradient-to-r from-yellow-300 to-yellow-600 text-black border:black">
@@ -143,13 +146,13 @@ const Navbar = ({ problemPage }) => {
                       target="_blank"
                       className="w-full cursor-pointer"
                     >
-                      <DropdownMenuItem className="w-full flex items-center justify-between text-white focus:bg-zinc-700 focus:text-white">
-                        Visit GitHub
+                      <DropdownMenuItem className="w-full flex items-center justify-start text-white focus:bg-zinc-700 focus:text-white">
+                        Visit
                         <Github className="mr-2 h-4 w-4" />
                       </DropdownMenuItem>
                     </Link>
                     <DropdownMenuItem
-                      className="w-full flex items-center justify-between text-white focus:bg-zinc-700 focus:text-white"
+                      className="w-full flex items-center justify-start text-white focus:bg-zinc-700 focus:text-white"
                       onClick={handleLogout}
                     >
                       Logout
