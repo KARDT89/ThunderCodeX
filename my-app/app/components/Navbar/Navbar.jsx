@@ -46,7 +46,7 @@ const Navbar = ({problemPage}) => {
         )}
         <div className="flex items-center space-x-4 flex-1 justify-end">
           <div>
-          {problemPage && (
+          {user && problemPage && (
               <Timer/>
             )}
           </div>

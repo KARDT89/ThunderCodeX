@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import { doc, setDoc } from "firebase/firestore";
+import { Eye, EyeOff } from "lucide-react";
 
 const Signup = () => {
   const [inputs, setInputs] = useState({
@@ -17,6 +18,10 @@ const Signup = () => {
     email: "",
     password: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
   const router = useRouter();
 
@@ -124,7 +129,7 @@ const Signup = () => {
             />
           </div>
 
-          <div>
+          <div className="relative">
             <label
               htmlFor="password"
               className="block mb-3 text-sm font-medium text-gray-300"
@@ -133,12 +138,20 @@ const Signup = () => {
             </label>
             <input
               onChange={handleChangeInput}
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               name="password"
               className="w-full px-4 py-3.5 text-sm rounded-lg bg-gray-700/60 border border-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 placeholder-gray-400 text-white transition-all duration-200"
               placeholder="••••••••"
             />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute right-4 top-11 text-gray-400 hover:text-gray-200 transition-colors"
+              tabIndex={-1}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
           </div>
         </div>
         <Button
