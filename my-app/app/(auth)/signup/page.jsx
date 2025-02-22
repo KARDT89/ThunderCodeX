@@ -11,6 +11,11 @@ import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import { doc, setDoc } from "firebase/firestore";
 import { Eye, EyeOff } from "lucide-react";
+import { Particles } from "@/components/magicui/particles";
+import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
+import { InteractiveGridPattern } from "@/components/magicui/interactive-grid-pattern";
+import { FlickeringGrid } from "@/components/magicui/flickering-grid";
 
 const Signup = () => {
   const [inputs, setInputs] = useState({
@@ -84,8 +89,23 @@ const Signup = () => {
       });
   }, [error]);
 
+  const { resolvedTheme } = useTheme();
+  const [color, setColor] = useState("#ffffff");
+ 
+  useEffect(() => {
+    setColor(resolvedTheme === "light" ? "#ffffff" : "#000000");
+  }, [resolvedTheme]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-700 via-black to-gray-900 flex items-center justify-center p-4">
+      <FlickeringGrid
+              className="absolute inset-0 z-0 size-full"
+              squareSize={4}
+              gridGap={6}
+              color="#6B7280"
+              maxOpacity={0.5}
+              flickerChance={0.1}
+            />
       <form
         className="space-y-8 p-12 rounded-2xl bg-gray-800/50 backdrop-blur-sm border border-gray-700 shadow-2xl w-full max-w-md"
         onSubmit={handleRegister}

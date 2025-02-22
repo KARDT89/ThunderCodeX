@@ -28,6 +28,9 @@ import { LogOut } from "lucide-react";
 import { useSignOut } from "react-firebase-hooks/auth";
 import { getDoc, doc } from "firebase/firestore";
 import { AuroraText } from "@/components/magicui/aurora-text";
+import { RainbowButton } from "@/components/magicui/rainbow-button";
+import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
+import { ModeToggle } from "@/components/ModeToggle";
 
 const Navbar = ({ problemPage }) => {
   const [user] = useAuthState(auth);
@@ -92,53 +95,48 @@ const Navbar = ({ problemPage }) => {
           <div>{user && problemPage && <Timer />}</div>
           {!problemPage && !user && (
             <div>
-              <Button
-                asChild
-                variant="outline"
-                className="w-full border-black text-black hover:bg-zinc-200/90"
-              >
+              <RainbowButton className="h-10">
                 <a
                   href="https://github.com/KARDT89"
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="flex"
                 >
-                  <Github className="mr-2 h-4 w-4" />
+                  <Github className="mr-2 h-[7] w-4" />
                   GitHub
                 </a>
-              </Button>
+              </RainbowButton>
             </div>
           )}
 
+          
+
           <div>
             {!user && (
-              <Button
-                asChild
-                className="w-full bg-gradient-to-r from-yellow-300 to-yellow-600 text-black"
-              >
-                <Link href="/login">
-                  <LogIn className="mr-2 h-4 w-4" />
-                  Sign In
-                </Link>
-              </Button>
+              <InteractiveHoverButton className="w-full bg-gradient-to-r from-yellow-300 to-yellow-600 text-black border:black">
+                <Link href="/login">Sign In</Link>
+              </InteractiveHoverButton>
             )}
 
             {user && (
-              <div className="cursor-pointer group relative">
+              <div className="cursor-pointer group relative flex gap-4">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <div className="flex items-center gap-5">
-                      <h1 className="font-bold tracking-tighter md:text-5xl lg:text-2xl">
-                        <AuroraText>Welcome, {showDisplayName}</AuroraText>
-                      </h1>
-
                       <Avatar className="h-[40px] w-[40px]">
                         <AvatarImage src="https://github.com/shadcn.png" />
                         <AvatarFallback>welcome</AvatarFallback>
                       </Avatar>
                     </div>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="bg-zinc-900 text-yellow-500">
-                    <DropdownMenuLabel></DropdownMenuLabel>
+                  <DropdownMenuContent className="bg-zinc-900 text-white">
+                    <AuroraText
+                      className={"w-full items-center justify-center text-4xl"}
+                    >
+                      <DropdownMenuLabel>
+                        {showDisplayName.toUpperCase()}
+                      </DropdownMenuLabel>
+                    </AuroraText>
                     <DropdownMenuSeparator />
                     <Link
                       href="https://github.com/KARDT89"
@@ -162,6 +160,11 @@ const Navbar = ({ problemPage }) => {
               </div>
             )}
           </div>
+          <ModeToggle
+            className={
+              "bg-transparent hover:bg-transparent hover:text-background dark:hover:text-foreground"
+            }
+          />
         </div>
       </div>
     </nav>
