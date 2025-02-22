@@ -1,5 +1,3 @@
-
-
 import Navbar from '@/app/components/Navbar/Navbar';
 import Workspace from '@/app/components/Workspace/Workspace';
 import { problems } from '@/app/utils/problems';
@@ -21,14 +19,14 @@ async function generateMetadata({ params }) {
 
 // Dynamic page based on [id]
 export default function ProblemsPage({ params }) {
-  const {handlerFunction, ...problemsWithoutHandler} = problems[params.id];
+  const problem = problems[params.id];
 
-  if (!problemsWithoutHandler) return notFound();
+  if (!problem) return notFound();
 
   return (
     <div>
       <Navbar problemPage={true} />
-      <Workspace problem={problemsWithoutHandler} />
+      <Workspace problem={problem} />
     </div>
   );
 }

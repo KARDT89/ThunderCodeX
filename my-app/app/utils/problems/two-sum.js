@@ -1,10 +1,11 @@
+"use client"
 import assert from "assert";
 
 const starterCodeTwoSumJS = `function twoSum(nums, target){
 // write your code here
 };`;
 
-const handleTwoSum = (fn) => {
+export const handleTwoSum = (fn) => {
   try {
     const nums = [
       [2, 7, 11, 15],

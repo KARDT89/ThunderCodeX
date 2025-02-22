@@ -1,3 +1,4 @@
+"use client"
 import assert from "assert";
 
 export const validParenthesesHandler = (fn) => {
