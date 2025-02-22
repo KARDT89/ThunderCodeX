@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableHeader,
@@ -14,56 +14,62 @@ import { AiFillYoutube } from "react-icons/ai";
 import Link from "next/link";
 import YouTube from "react-youtube";
 import { IoClose } from "react-icons/io5";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { firestore } from "@/app/firebase/firebase";
 
-function ProblemsTable() {
+function ProblemsTable({setLoadingProblems}) {
   const [youtubePlayer, setYoutubePlayer] = useState({
     isOpen: false,
     videoId: "",
   });
+
+  const problems = useGetProblems(setLoadingProblems)
+
   const closeModal = () => {
     setYoutubePlayer({ isOpen: false, videoId: "" });
   };
 
-  
-
-
   return (
     <>
       <TableBody>
-        {problems.map((doc, idx) => {
+        {problems.map((problem, idx) => {
           const difficultyColor =
-            doc.difficulty === "Easy"
+            problem.difficulty === "Easy"
               ? "text-green-500"
-              : doc.difficulty === "Medium"
+              : problem.difficulty === "Medium"
               ? "text-yellow-500"
               : "text-red-500";
 
           return (
             <TableRow
-              key={doc.id}
+              key={problem.id}
               className="border-b border-gray-700 hover:bg-gray-700"
             >
               <TableCell className="p-4">
                 <BsCheckCircle fontSize={"18"} width={"18"} />
               </TableCell>
               <TableCell className="p-4">
-                <Link
+                {problem.link ? (
+                  <Link href={problem.link} className="hover:text-blue-600 cursor-pointer" target="_blank">{problem.title}</Link>
+                ): (
+                  <Link
                   className="hover:text-blue-600 cursor-pointer"
-                  href={`/problems/${doc.id}`}
+                  href={`/problems/${problem.id}`}
                 >
-                  {doc.title}
+                  {problem.title}
                 </Link>
+                )}
               </TableCell>
               <TableCell className={`p-4 ${difficultyColor}`}>
-                {doc.difficulty}
+                {problem.difficulty}
               </TableCell>
-              <TableCell className="p-4">{doc.category}</TableCell>
+              <TableCell className="p-4">{problem.category}</TableCell>
               <TableCell className="p-4">
-                {doc.videoId ? (
+                {problem.videoId ? (
                   <AiFillYoutube
                     fontSize={"28"}
                     className="cursor-pointer hover:text-red-600"
-                    onClick={()=>setYoutubePlayer({isOpen: true, videoId: doc.videoId})}
+                    onClick={()=>setYoutubePlayer({isOpen: true, videoId: problem.videoId})}
                   />
                 ) : (
                   <p className="text-gray-400">Coming soon</p>
@@ -106,3 +112,26 @@ function ProblemsTable() {
 }
 
 export default ProblemsTable;
+
+
+function useGetProblems(setLoadingProblems){
+  const [problems, setProblems] = useState([])
+
+  useEffect(()=>{
+    const getProblems = async () => {
+      setLoadingProblems(true)
+      const q = query(collection(firestore, "problems"), orderBy("order", "asc"))
+      const querySnapshot = await getDocs(q)
+      const temp = []
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        temp.push({id: doc.id, ...doc.data()})
+      });
+      setProblems(temp)
+      setLoadingProblems(false)
+    }
+    getProblems()
+  },[setLoadingProblems])
+
+  return problems;
+}
