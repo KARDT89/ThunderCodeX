@@ -2,8 +2,9 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { AiOutlineFullscreen, AiOutlineSetting, AiOutlineFullscreenExit } from "react-icons/ai";
 import { useState, useEffect } from "react";
+import SettingsModal from "@/app/components/Modal/SettingsModal";
 
-function PreferenceNav() {
+function PreferenceNav({settings, setSettings}) {
   const [isFullScreen, setIsFullScreen] = useState(false);
 
 	const handleFullScreen = () => {
@@ -45,11 +46,11 @@ function PreferenceNav() {
         </Button>
       </div>
       <div className="flex items-center m-2">
-        <button className='preferenceBtn group'>
+        <button className='preferenceBtn group' onClick={() => setSettings({ ...settings, settingsModalIsOpen: true })} >
             <div className="h-4 w-4 text-gray-200 font-bold text-lg">
                 <AiOutlineSetting/>
             </div>
-            <div className="preferenceBtn-tooltip">
+            <div className="preferenceBtn-tooltip" >
                 Settings
             </div>
         </button>
@@ -62,6 +63,7 @@ function PreferenceNav() {
             </div>
         </button>
       </div>
+      {settings.settingsModalIsOpen && <SettingsModal settings={settings} setSettings={setSettings}/>}
     </div>
   );
 }

@@ -12,11 +12,20 @@ import { toast } from "react-toastify";
 import { problems } from "@/app/utils/problems";
 import { usePathname } from "next/navigation";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 function Playground({ problem, setSuccess, setSolved }) {
   const [activeTestCaseId, setActiveTestCaseId] = useState(0);
   let [userCode, setUserCode] = useState(problem.starterCode);
   const [user] = useAuthState(auth);
+  const [fontSize, setFontSize] = useLocalStorage("lcc-fontSize", "16px");
+
+  const [settings, setSettings] = useState({
+    fontSize: fontSize,
+    settingsModalIsOpen: false,
+    dropdownIsOpen: false,
+  });
+
   const pathname = usePathname();
   const id = pathname.split("/").pop();
 
@@ -30,7 +39,7 @@ function Playground({ problem, setSuccess, setSolved }) {
       return;
     }
     try {
-        userCode = userCode.slice(userCode.indexOf(problem.starterFunctionName))
+      userCode = userCode.slice(userCode.indexOf(problem.starterFunctionName));
       const cb = new Function(`return ${userCode}`)();
       const success = problems[id].handlerFunction(cb);
       if (success) {
@@ -44,11 +53,11 @@ function Playground({ problem, setSuccess, setSolved }) {
           setSuccess(false);
         }, 4000);
 
-        const userRef = doc(firestore, "users", user.uid)
+        const userRef = doc(firestore, "users", user.uid);
         await updateDoc(userRef, {
-            solvedProblems: arrayUnion(id)
-        })
-        setSolved(true)
+          solvedProblems: arrayUnion(id),
+        });
+        setSolved(true);
       }
     } catch (error) {
       if (
@@ -69,28 +78,25 @@ function Playground({ problem, setSuccess, setSolved }) {
         });
       }
     }
-  }
+  };
 
   useEffect(() => {
     const code = localStorage.getItem(`code-${id}`);
     if (user) {
-        setUserCode(code ? JSON.parse(code) : problem.starterCode);
+      setUserCode(code ? JSON.parse(code) : problem.starterCode);
     } else {
-        setUserCode(problem.starterCode);
+      setUserCode(problem.starterCode);
     }
-}, [id, user, problem.starterCode]);
+  }, [id, user, problem.starterCode]);
 
-
-
-    const onChange = (value) => {
-      setUserCode(value);
-      localStorage.setItem(`code-${id}`, JSON.stringify(value))
-    };
-
+  const onChange = (value) => {
+    setUserCode(value);
+    localStorage.setItem(`code-${id}`, JSON.stringify(value));
+  };
 
   return (
     <div className="flex flex-col bg-zinc-800 relative">
-      <PreferenceNav />
+      <PreferenceNav settings={settings} setSettings={setSettings} />
       <Split
         className="h-[calc(100vh-94px)]"
         direction="vertical"
@@ -102,7 +108,7 @@ function Playground({ problem, setSuccess, setSolved }) {
             value={userCode}
             theme={vscodeDark}
             extensions={[javascript()]}
-            style={{ fontSize: 16 }}
+            style={{ fontSize: settings.fontSize }}
             onChange={onChange}
           />
         </div>
