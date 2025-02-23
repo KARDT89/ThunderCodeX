@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   Table,
   TableHeader,
@@ -15,7 +15,9 @@ import Link from "next/link";
 import YouTube from "react-youtube";
 import { IoClose } from "react-icons/io5";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import { firestore } from "@/app/firebase/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, firestore } from "@/app/firebase/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 function ProblemsTable({setLoadingProblems}) {
   const [youtubePlayer, setYoutubePlayer] = useState({
@@ -24,6 +26,9 @@ function ProblemsTable({setLoadingProblems}) {
   });
 
   const problems = useGetProblems(setLoadingProblems)
+
+  const solvedProblems = useGetSolvedProblems()
+  console.log("solvedProblems", solvedProblems);
 
   const closeModal = () => {
     setYoutubePlayer({ isOpen: false, videoId: "" });
@@ -46,7 +51,7 @@ function ProblemsTable({setLoadingProblems}) {
               className="border-b border-gray-700 hover:bg-gray-700"
             >
               <TableCell className="p-4">
-                <BsCheckCircle fontSize={"18"} width={"18"} />
+                {solvedProblems.includes(problem.id) && <BsCheckCircle fontSize={"20"} width={"18"} className="text-green-400"/>}
               </TableCell>
               <TableCell className="p-4">
                 {problem.link ? (
@@ -134,4 +139,24 @@ function useGetProblems(setLoadingProblems){
   },[setLoadingProblems])
 
   return problems;
+}
+function useGetSolvedProblems() {
+	const [solvedProblems, setSolvedProblems] = useState([]);
+	const [user] = useAuthState(auth);
+
+	useEffect(() => {
+		const getSolvedProblems = async () => {
+			const userRef = doc(firestore, "users", user.uid);
+			const userDoc = await getDoc(userRef);
+
+			if (userDoc.exists()) {
+				setSolvedProblems(userDoc.data().solvedProblems);
+			}
+		};
+
+		if (user) getSolvedProblems();
+		if (!user) setSolvedProblems([]);
+	}, [user]);
+
+	return solvedProblems;
 }
