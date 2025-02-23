@@ -21,7 +21,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
-const ProblemDescription = ({ problem }) => {
+const ProblemDescription = ({ problem , _solved}) => {
   const [user] = useAuthState(auth);
   const { currentProblem, loading, problemDifficultyClass, setCurrentProblem } =
     useGetCurrentProblem(problem.id);
@@ -214,9 +214,11 @@ const ProblemDescription = ({ problem }) => {
               >
                 {currentProblem.difficulty}
               </div>
-              <div className="rounded p-1 ml-4 text-xl text-green-400">
+              {(solved || _solved) && (
+                <div className="rounded p-1 ml-4 text-xl text-green-400">
                 <BsCheck2Circle />
-              </div>
+                </div>
+              )}
               <div
                 className="flex items-center cursor-pointer hover:bg-zinc-700 space-x-1.5 rounded p-1.5 ml-3 text-base text-gray-400"
                 onClick={handleLike}

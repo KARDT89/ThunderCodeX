@@ -33,6 +33,10 @@ import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-b
 import { ModeToggle } from "@/components/ModeToggle";
 import { TypingAnimation } from "@/components/magicui/typing-animation";
 import { SpinningText } from "@/components/magicui/spinning-text";
+import { useRouter } from "next/navigation";
+import { problems } from "@/app/utils/problems";
+import { usePathname } from "next/navigation";
+
 
 const Navbar = ({ problemPage }) => {
   const [user] = useAuthState(auth);
@@ -40,6 +44,7 @@ const Navbar = ({ problemPage }) => {
   const [signOut] = useSignOut(auth);
 
   const [showDisplayName, setShowDisplayName] = useState("");
+  const router = useRouter()
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -66,6 +71,28 @@ const Navbar = ({ problemPage }) => {
     signOut();
   };
 
+  const pathname = usePathname();
+  const id = pathname.split("/").pop();
+  const handleProblemChange = (isForward) => {
+     // Gets the last segment (problem ID)
+		const { order } = problems[id];
+		const direction = isForward ? 1 : -1;
+		const nextProblemOrder = order + direction;
+		const nextProblemKey = Object.keys(problems).find((key) => problems[key].order === nextProblemOrder);
+
+		if (isForward && !nextProblemKey) {
+			const firstProblemKey = Object.keys(problems).find((key) => problems[key].order === 1);
+			router.push(`/problems/${firstProblemKey}`);
+		} else if (!isForward && !nextProblemKey) {
+			const lastProblemKey = Object.keys(problems).find(
+				(key) => problems[key].order === Object.keys(problems).length
+			);
+			router.push(`/problems/${lastProblemKey}`);
+		} else {
+			router.push(`/problems/${nextProblemKey}`);
+		}
+	};
+
   return (
     <nav className="relative flex h-[50px] w-full shrink-0 items-center px-5 bg-zinc-800 text-dark-gray-7 ">
       <div
@@ -76,12 +103,12 @@ const Navbar = ({ problemPage }) => {
         {/* <Link href={"/"} className="h-[22px] flex-1 text-white">
           <Image src={"/images/logo-full.png"} width={100} height={100} />
         </Link> */}
-        <div className="text-2xl font-bold tracking-tighter md:text-2xl lg:text-2xl flex-1">
+        <Link href={"/"} className="text-2xl font-bold tracking-tighter md:text-2xl lg:text-2xl flex-1 !text-white ">
         <AuroraText>ThunderCodeX</AuroraText>
-        </div>
+        </Link>
         {problemPage && (
           <div className="flex items-center gap-4 flex-1 justify-center">
-            <button className="flex items-center justify-center rounded-lg bg-gray-700 hover:bg-gray-600 h-9 w-9 transition duration-200">
+            <button className="flex items-center justify-center rounded-lg bg-gray-700 hover:bg-gray-600 h-9 w-9 transition duration-200" onClick={()=> handleProblemChange(false)}>
               <FaChevronLeft className="text-white" />
             </button>
             <Link
@@ -91,7 +118,7 @@ const Navbar = ({ problemPage }) => {
               <BsList className="text-lg" />
               <p>Problem List</p>
             </Link>
-            <button className="flex items-center justify-center rounded-lg bg-gray-700 hover:bg-gray-600 h-9 w-9 transition duration-200">
+            <button className="flex items-center justify-center rounded-lg bg-gray-700 hover:bg-gray-600 h-9 w-9 transition duration-200" onClick={()=> handleProblemChange(true)}>
               <FaChevronRight className="text-white" />
             </button>
           </div>
