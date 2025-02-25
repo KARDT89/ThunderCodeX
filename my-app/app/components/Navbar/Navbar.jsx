@@ -129,7 +129,7 @@ const Navbar = ({ problemPage }) => {
             <div>
               <RainbowButton className="h-10">
                 <a
-                  href="https://github.com/KARDT89"
+                  href="https://github.com/KARDT89/ThunderCodeX"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex"
